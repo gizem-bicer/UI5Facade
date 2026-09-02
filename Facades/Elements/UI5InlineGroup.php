@@ -39,7 +39,7 @@ class UI5InlineGroup extends UI5Value
                 {$this->buildJsChildrenConstructors()}
             ]
         })
-        .addStyleClass('{$this->buildCssElementClass()}')
+        .addStyleClass('{$this->buildCssElementClass()} {$this->buildCssWidgetClass()}')
         {$this->buildJsPseudoEventHandlers()}
 JS;
     }
