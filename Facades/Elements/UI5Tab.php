@@ -66,7 +66,7 @@ class UI5Tab extends UI5Panel
         content: [
             {$this->buildJsLayoutConstructor()}
         ]
-    }).addStyleClass("{$this->buildCssWidgetClass()}")
+    })
 JS;
     }
     
