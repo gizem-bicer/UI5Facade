@@ -21,6 +21,7 @@
     "require": {
         "exface/core": "^1.0",
         "bower-asset/font-awesome-openui5": "^v2.1",
+        "bower-asset/jquery-comments": "^1.5",
         "bower-asset/ui5-qrcode": "~0.9",
         "npm-asset/dexie": "^4.4.6",
         "npm-asset/moment": "^2.24.0",

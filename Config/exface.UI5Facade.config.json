@@ -219,6 +219,9 @@
 	"LIBS.SLICK.THEME_CSS": "npm-asset/slick-carousel/slick/slick-theme.css",
 	"LIBS.SLICK.LIGHTBOX_JS": "npm-asset/slick-lightbox/dist/slick-lightbox.min.js",
 	"LIBS.SLICK.LIGHTBOX_CSS": "npm-asset/slick-lightbox/dist/slick-lightbox.css",
+
+	"LIBS.JQUERY_COMMENTS.JS": "bower-asset/jquery-comments/js/jquery-comments.js",
+	"LIBS.JQUERY_COMMENTS.CSS": "bower-asset/jquery-comments/css/jquery-comments.css",
 		
 	"LIBS.PIVOTTABLE.CORE.JS": "npm-asset/pivottable/dist/pivot.min.js",
    	"LIBS.PIVOTTABLE.CORE.CSS": "npm-asset/pivottable/dist/pivot.min.css",
