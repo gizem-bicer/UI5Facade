@@ -1,4 +1,25 @@
 [
+  {
+    "name": "npm-asset/leaflet-extra-markers",
+    "license": ["MIT"],
+    "license_link": {
+      "MIT": "https://raw.githubusercontent.com/coryasilva/Leaflet.ExtraMarkers/v1.2.2/LICENSE"
+    }
+  },
+  {
+    "name": "npm-asset/slick-lightbox",
+    "license": ["MIT"],
+    "license_link": {
+      "MIT": "https://raw.githubusercontent.com/mreq/slick-lightbox/v0.2.12/LICENSE"
+    }
+  },
+  {
+    "name": "npm-asset/union",
+    "license": ["MIT"],
+    "license_link": {
+            "MIT": "https://raw.githubusercontent.com/flatiron/union/0.5.0/LICENSE"
+    }
+  },
     {
         "name": "npm-asset/plotly.js",
         "version": "1.58.5",
@@ -22,18 +43,6 @@
       "license_link": [
         "https://github.com/nhn/tui.editor/blob/master/LICENSE"
       ]
-    },
-    {
-        "name": "npm-asset/driver.js",
-        "version": "1.4.0",
-        "license": [
-          "MIT"
-        ],
-        "license_link": [
-          "exface/ui5facade/Facades/js/driver/license.txt"
-        ],
-        "description": "A lightweight, dependency-free JavaScript library for guiding user focus across the page.",
-        "homepage": "https://driverjs.com"
     },
     {
         "name": "npm-asset/jspreadsheet--formula",
@@ -281,7 +290,7 @@
     },
     {
       "name": "npm-asset/mermaid",
-      "version": "11.17.2",
+      "version": "12.2.0",
       "license": ["MIT"],
       "license_file": "exface/ui5facade/Facades/js/mermaid/LICENSE.txt",
       "description": "Generation of diagrams like flowcharts or sequence diagrams from text in a similar manner as markdown",

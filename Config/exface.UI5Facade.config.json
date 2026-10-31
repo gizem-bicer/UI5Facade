@@ -190,7 +190,6 @@
 	"LIBS.SETUPMANAGER.JS": "exface/ui5facade/Facades/js/exfSetupManager.js",
     
     "LIBS.ECHARTS.ECHARTS_JS": "exface/core/Facades/AbstractAjaxFacade/js/echarts/echarts.custom.min.js",
-	"LIBS.ECHARTS.ECHARTSHEATMAP_JS": "exface/core/Facades/AbstractAjaxFacade/js/echarts/echarts46Heatmap.custom.min.js",    
     "LIBS.ECHARTS.THEME_JS": "exface/ui5facade/Facades/js/echarts/ui5theme.js",
     "LIBS.ECHARTS.THEME_NAME": "ui5theme",
 	"LIBS.TINYCOLOR.JS": "npm-asset/tinycolor2/dist/tinycolor-min.js",

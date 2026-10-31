@@ -28,6 +28,7 @@ class UI5Chart extends UI5AbstractElement implements UI5DataElementInterface
     use EChartsTrait;
     use UI5DataElementTrait {
         buildJsConfiguratorButtonConstructor as buildJsConfiguratorButtonConstructorViaTrait;
+        buildJsDataLoaderFromLocal as buildJsDataLoaderFromLocalViaTrait;
         buildJsDataLoaderOnLoaded as buildJsDataLoaderOnLoadedViaTrait;
         EChartsTrait::buildJsDataResetter insteadof UI5DataElementTrait;
         EChartsTrait::buildJsValueGetter insteadof UI5DataElementTrait;
@@ -124,11 +125,7 @@ JS;
     public function registerExternalModules(UI5ControllerInterface $controller) : UI5AbstractElement
     {
         $f = $this->getFacade();
-        if ($this->getChartType() === $this->chartTypes['CHART_TYPE_HEATMAP']) {
-            $controller->addExternalModule('libs.exface.charts.ECharts', $f->buildUrlToSource('LIBS.ECHARTS.ECHARTSHEATMAP_JS'), null, 'echarts');
-        } else {
-            $controller->addExternalModule('libs.exface.charts.ECharts', $f->buildUrlToSource('LIBS.ECHARTS.ECHARTS_JS'), null, 'echarts');
-        }
+        $controller->addExternalModule('libs.exface.charts.ECharts', $f->buildUrlToSource('LIBS.ECHARTS.ECHARTS_JS'), null, 'echarts');
         $controller->addExternalModule('libs.exface.charts.Theme', $f->buildUrlToSource('LIBS.ECHARTS.THEME_JS'), null);        
         $controller->addExternalModule('libs.exface.TinyColor', $f->buildUrlToSource('LIBS.TINYCOLOR.JS'), null, 'tinycolor');
         $controller->addExternalModule('libs.exface.TinyGradient', $f->buildUrlToSource('LIBS.TINYGRADIENT.JS'), null, 'tinygradient');
@@ -333,6 +330,23 @@ JS;
     {
         // Use the data loader of the UI5DataElementTrait
         return $this->buildJsDataLoader();
+    }
+    
+    /**
+     * Redraws embedded chart data after loading; initialization handles loads before rendering.
+     *
+     * {@inheritDoc}
+     * @see UI5DataElementTrait::buildJsDataLoaderFromLocal()
+     */
+    protected function buildJsDataLoaderFromLocal($oControlEventJsVar = 'oControlEvent', $keepPagePosJsVar = 'bKeepPagingPos') : string
+    {
+        return $this->buildJsDataLoaderFromLocalViaTrait($oControlEventJsVar, $keepPagePosJsVar) . <<<JS
+
+            ;
+            if ({$this->buildJsEChartsVar()} !== undefined) {
+                {$this->buildJsRedraw("sap.ui.getCore().byId('{$this->getId()}').getModel().getData().rows")};
+            }
+JS;
     }
 
     /**
