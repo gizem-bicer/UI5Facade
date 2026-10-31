@@ -79,22 +79,10 @@ class UI5CommentsFeed extends UI5AbstractElement implements UI5DataElementInterf
         $windowEventNamespace = $this->escapeString('.comments_' . $eventNamespace);
         $width = $this->getWidth();
         $height = $this->getHeight();
-        $styleId = $this->escapeString($this->getId() . '-layout-style');
-        $scrollContainerCss = $this->escapeString(
-            '#' . $this->getId()
-            . '.jquery-comments > .data-container{flex:1 1 auto;min-height:0;overflow-y:auto;}'
-        );
 
         return <<<JS
 
         (function() {
-            var oCommentsStyle = document.getElementById({$styleId});
-            if (! oCommentsStyle) {
-                oCommentsStyle = document.createElement('style');
-                oCommentsStyle.id = {$styleId};
-                oCommentsStyle.textContent = {$scrollContainerCss};
-                document.head.appendChild(oCommentsStyle);
-            }
             var oCommentsHtml = new sap.ui.core.HTML("{$this->getId()}", {
                 content: "<div id=\"{$this->getId()}\" class=\"exf-commentsfeed exf-data-widget\" style=\"box-sizing:border-box;display:flex;flex-direction:column;width:{$width};max-width:100%;height:{$height};min-height:6rem;overflow:hidden;font-size:var(--sapFontSize,0.875rem);line-height:var(--sapContent_LineHeight,1.5);\"></div>"
             });
@@ -132,9 +120,6 @@ class UI5CommentsFeed extends UI5AbstractElement implements UI5DataElementInterf
             });
             oCommentsHtml.exit = function() {
                 fnCommentsCleanup();
-                if (oCommentsStyle.parentNode) {
-                    oCommentsStyle.parentNode.removeChild(oCommentsStyle);
-                }
                 if (typeof fnHtmlExit === 'function') {
                     return fnHtmlExit.apply(this, arguments);
                 }
@@ -161,6 +146,10 @@ JS;
         $controller->addExternalCss(
             $facade->buildUrlToSource('LIBS.JQUERY_COMMENTS.CSS'),
             'exf-jquery-comments-css'
+        );
+        $controller->addExternalCss(
+            'vendor/exface/ui5facade/Facades/js/jquery-comments.exface.css',
+            'exf-ui5-jquery-comments-css'
         );
         return $this;
     }

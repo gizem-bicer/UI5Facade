@@ -1,0 +1,83 @@
+.exf-commentsfeed.jquery-comments > .data-container {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+}
+
+.exf-commentsfeed.jquery-comments ul.main li.comment {
+    margin-bottom: 0.75rem;
+}
+
+.exf-commentsfeed.jquery-comments .commenting-field .textarea {
+    border-color: var(--sapField_BorderColor, var(--sapList_BorderColor));
+    background: var(--sapField_Background, var(--sapList_Background));
+    color: var(--sapField_TextColor, var(--sapTextColor));
+}
+
+.exf-commentsfeed.jquery-comments .commenting-field .textarea:empty:not(:focus)::before {
+    color: var(--sapField_PlaceholderTextColor, var(--sapContent_LabelColor));
+}
+
+.exf-commentsfeed.jquery-comments .commenting-field .textarea-wrapper::before {
+    border-color: var(--sapField_BorderColor, var(--sapList_BorderColor));
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+}
+
+.exf-commentsfeed.jquery-comments .commenting-field .textarea-wrapper::after {
+    border-color: var(--sapField_Background, var(--sapList_Background));
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+}
+
+.exf-commentsfeed.jquery-comments ul.main li.comment > .comment-wrapper {
+    box-sizing: border-box;
+    width: fit-content;
+    min-width: min(12rem, 75%);
+    max-width: 75%;
+    margin-right: auto;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--sapList_BorderColor, var(--sapGroup_ContentBorderColor));
+    border-radius: 1rem 1rem 1rem 0.25rem;
+    background: var(--sapList_Background, var(--sapGroup_ContentBackground));
+    color: var(--sapTextColor);
+}
+
+.exf-commentsfeed.jquery-comments ul.main li.comment.by-current-user > .comment-wrapper {
+    margin-right: 0;
+    margin-left: auto;
+    border-color: var(--sapHighlightColor);
+    border-radius: 1rem 1rem 0.25rem;
+    background: var(--sapHighlightColor);
+    color: var(--sapContent_ContrastTextColor);
+}
+
+.exf-commentsfeed.jquery-comments ul.main li.comment.by-current-user > .comment-wrapper > .profile-picture {
+    display: none;
+}
+
+.exf-commentsfeed.jquery-comments ul.main li.comment .comment-header,
+.exf-commentsfeed.jquery-comments ul.main li.comment .wrapper .content,
+.exf-commentsfeed.jquery-comments ul.main li.comment .wrapper .content a {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.exf-commentsfeed.jquery-comments ul.main li.comment time,
+.exf-commentsfeed.jquery-comments ul.main li.comment .wrapper .content time.edited,
+.exf-commentsfeed.jquery-comments ul.main li.comment .actions > * {
+    color: var(--sapContent_LabelColor);
+}
+
+.exf-commentsfeed.jquery-comments ul.main li.comment.by-current-user time,
+.exf-commentsfeed.jquery-comments ul.main li.comment.by-current-user .wrapper .content time.edited,
+.exf-commentsfeed.jquery-comments ul.main li.comment.by-current-user .wrapper .content a,
+.exf-commentsfeed.jquery-comments ul.main li.comment.by-current-user .actions > *,
+.exf-commentsfeed.jquery-comments ul.main li.comment.by-current-user .actions .action:hover {
+    color: var(--sapContent_ContrastTextColor);
+}
+
+.exf-commentsfeed.jquery-comments ul.main li.comment .actions .action {
+    position: relative;
+    z-index: 1;
+}
