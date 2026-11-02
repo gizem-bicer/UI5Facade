@@ -22,7 +22,7 @@
   },
     {
         "name": "npm-asset/plotly.js",
-        "version": "1.58.5",
+        "version": "2.35.3",
         "license": [
 	        "MIT"
 	    ],
