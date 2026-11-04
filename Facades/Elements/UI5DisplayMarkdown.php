@@ -33,36 +33,37 @@ class UI5DisplayMarkdown extends UI5Value
                 var oModel = oHtml ? oHtml.getModel() : undefined;
                 var sBindingPath = '{$this->getValueBindingPath()}';
 
+                // False on the first render of this control, true on every later re-render
+                // (e.g. after a tab switch), because the flag is set on the control at the end.
                 var bWasInitialized = oHtml && "_toastUiBinding" in oHtml && oHtml._toastUiBinding;
 
-                // Sometimes the DOM structure of ToastUI gets disrupted during initialization
-                // or gets wiped when the control is re-rendered (e.g. when switching tabs).
-                // We can detect if the DOM structure was disrupted and repeat initialization if necessary.
+                // ToastUI's DOM can be missing on first render or wiped by a re-render,
+                // so the viewer is (re)created whenever its contents element is absent.
                 if (($('#{$this->getId()}').find('.toastui-editor-contents').length === 0)) {
                     {$markdownVar} = {$this->buildJsMarkdownInitViewer()};
 
-                    // On a re-render (e.g. after a tab switch) the viewer is recreated empty,
-                    // because its actual value came from the model at runtime and not from the
-                    // initialValue rendered into the page. Re-apply the current model value here -
-                    // otherwise the text would be lost, since the binding change handler below is
-                    // only attached once and does not fire again if the model value is unchanged.
-                    // This must NOT run on the very first initialization: at that point the model
-                    // may still be loading and could hold an empty value that would clobber the
-                    // correct initialValue. The initial value is handled by initialValue + binding.
-                    if (bWasInitialized && oModel !== undefined) {
+                    // A new viewer starts from the widget's initialValue, which is usually empty for
+                    // data-bound widgets. Apply the current model value so already-loaded content shows up.
+                    if (oModel !== undefined) {
                         var sModelVal = oModel.getProperty(sBindingPath);
-                        if (sModelVal !== undefined) {
+
+                        // On first render the model may still be loading and hold "", which must not
+                        // overwrite a non-empty initialValue. On re-renders, "" is the real content.
+                        if (sModelVal !== undefined && (bWasInitialized || sModelVal !== '')) {
                             {$this->buildJsValueSetter("sModelVal")}
                         }
                     }
                 }
-                
-                if (oHtml && "_toastUiBinding" in oHtml && oHtml._toastUiBinding) {
+
+                // The listener below is attached only once, so skip it on re-renders.
+                if (bWasInitialized) {
                     return;
                 }
-                
+
                 if(oModel !== undefined) {
-                    var oValueBinding = new sap.ui.model.Binding(oModel, sBindingPath, oModel.getContext(sBindingPath));
+                    // Property bindings are registered with the model, so attachChange fires on every
+                    // model update. A plain sap.ui.model.Binding is never registered and would not fire.
+                    var oValueBinding = oModel.bindProperty(sBindingPath);
                     
                     oValueBinding.attachChange(function(oEvent){
                         setTimeout(function(){

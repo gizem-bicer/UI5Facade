@@ -501,6 +501,47 @@ JS;
         return $js;
     }
     
+    /**
+     * Wraps a button placed in a form in an HBox, so its `align` takes effect.
+     *
+     * Form elements ignore the alignment of their content, so every button is placed in a
+     * full-width HBox justified according to its alignment (default: start).
+     *
+     * @param UI5Button $element
+     * @param string $buttonJs
+     * @return string
+     */
+    protected function buildJsConstructorFormButtonAlignment(UI5Button $element, string $buttonJs) : string
+    {
+        $widget = $element->getWidget();
+        switch ($widget->getAlign()) {
+            case EXF_ALIGN_RIGHT:
+            case EXF_ALIGN_OPPOSITE:
+                $justify = 'End';
+                break;
+            case EXF_ALIGN_CENTER:
+                $justify = 'Center';
+                break;
+            default:
+                $justify = 'Start';
+                break;
+        }
+        return <<<JS
+new sap.m.HBox({
+                        width: "100%",
+                        justifyContent: "{$justify}",
+                        items: [{$buttonJs}]
+                    })
+JS;
+    }
+
+    /**
+     * Builds the JS constructors for the widgets of a form element (one FormElement per widget).
+     *
+     * @param array $widgets
+     * @param WidgetInterface|null $containerWidget
+     * @return string
+     */
     protected function buildJsConstructorFormElement(array $widgets, ?WidgetInterface $containerWidget = null) : string
     {
         $js = '';
@@ -518,15 +559,20 @@ JS;
                 $element->setRenderCaptionAsLabel(true);
             } else {
                 if ($element instanceof UI5Button){
-                    // for Buttons, add a hidden/empty label, to make them align with the rest of the layout
-                    // and not strech tthe entire width of the form element.
-                    $label = "label: new sap.m.Label({
-                        text: '',
-                        visible: false
-                    }),";
+                    // Buttons without an explicit alignment get a hidden/empty label, so they line up
+                    // with the other form fields instead of stretching the full width of the form element.
+                    // Explicitly aligned buttons skip it, so their field spans the full row and the
+                    // alignment (see buildJsConstructorFormButtonAlignment) is relative to the form edge.
+                    if (! $widget->isAlignSet()) {
+                        $label = "label: new sap.m.Label({
+                            text: '',
+                            visible: false
+                        }),";
+                    }
+                    $fields = $this->buildJsConstructorFormButtonAlignment($element, $element->buildJsConstructor());
+                } else {
+                    $fields= $element->buildJsConstructor();
                 }
-                
-                $fields= $element->buildJsConstructor();
             }
             $js .= $js !== '' ? ",\n" : '';
             $js .= <<<JS

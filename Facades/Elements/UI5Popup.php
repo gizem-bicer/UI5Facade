@@ -44,15 +44,17 @@ class UI5Popup extends UI5Form
         // Otherwise values, that had bee inserted would be there again when
         // the popup is opened the next time - in particular if opened in another 
         // context, where not all widgets of the popup explicitly receive values.
+        $caption = $this->getCaption();
         $icon = $widget->getIcon() ? 'icon: "' . $this->getIconSrc($widget->getIcon()) . '",' : '';
         $footer = $widget->getHideFooter() === true ? 'null' : $this->buildJsFloatingToolbar();
         return <<<JS
 
         new sap.m.Popover("{$this->getId()}", {
-			{$icon}
+            {$icon}
             {$this->buildJsPropertyContentHeight()}
             {$this->buildJsPropertyContentWidth()}
-            title: {$this->escapeString($this->getCaption())},
+            title: {$this->escapeString($caption)},
+            showHeader: {$this->escapeBool(trim($caption) !== '' || $icon !== '')},
             placement: sap.m.PlacementType.Auto,
 			content : [ {$this->buildJsLayoutConstructor()} ],
             footer: {$footer},
@@ -272,8 +274,11 @@ JS;
      */
     protected function getCaption() : string
     {
-        $caption = parent::getCaption();
         $widget = $this->getWidget();
+        if ($widget->getHideCaption() === true) {
+            return '';
+        }
+        $caption = parent::getCaption();
         $objectName = $widget->getMetaObject()->getName();
         $buttonCaption = $widget->hasParent() ? $widget->getParent()->getCaption() : null;
         
