@@ -6,7 +6,19 @@ You can include specific riel-gantt UI5 CSS here:
    Isolation preserves viewport-positioned popups without adding clipping. */
 .exf-gantt {isolation: isolate;}
 
-.exf-gantt .gantt-container {height: 100%; overflow-y: hidden;}
+/* UI5 measures hidden bars through jQuery, so their dimensions must also be zero. */
+.sapUiLoSplitter.exf-gantt-no-splitbar > .sapUiLoSplitterBar.sapUiLoSplitterNoResize {
+  display: none;
+  width: 0;
+  height: 0;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* Bound auto-generated inline heights to the pane, including the native scrollbar. */
+.exf-gantt .gantt-container {height: 100%; max-height: 100%; box-sizing: border-box; overflow-y: hidden;}
 .bar-folder {filter: drop-shadow(0px -3px 0px rgb(0 0 0 / 0.8))}
 
 /* makes Gantt popover smaller */

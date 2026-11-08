@@ -62,6 +62,9 @@ class UI5Dashboard extends UI5Container
             $layoutJs = parent::buildJsConstructor($oControllerJs);
         } else {
             $layoutJs = $this->buildJsLayoutConstructor($this->buildJsLayoutGridContainers($oControllerJs));
+            if ($this->widgetHasTourGuide($widget) && $this->hasPageWrapper()) {
+                $layoutJs = $this->buildJsPageWrapper($layoutJs);
+            }
         }
         return $layoutJs;
     }
@@ -76,13 +79,14 @@ class UI5Dashboard extends UI5Container
     }
 
     /**
-     * 
+     * Builds the tour menu and filter actions for the dashboard header.
      * @return string
      */
     protected function buildJsHeaderButtons() : string
     {
+        $buttonsJs = $this->buildJsTourGuideDropdown($this->getWidget(), $this->getController());
         if (! $this->isWrappedInDynamicPage()) {
-            return '';
+            return $buttonsJs;
         }
         
         $translator = $this->getWorkbench()->getCoreApp()->getTranslator();
@@ -112,7 +116,6 @@ class UI5Dashboard extends UI5Container
             'visibility' => WidgetVisibilityDataType::PROMOTED
         ]));
         $buttons[] = $btn;
-        $buttonsJs = '';
         foreach ($buttons as $btn) {
             $buttonsJs .= $this->getFacade()->getElement($btn)->buildJsConstructor() . ',';
         }
@@ -493,9 +496,15 @@ JS;
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * @see UI5Container::hasPageWrapper()
+     */
     public function hasPageWrapper() : bool
     {
-        return $this->isWrappedInDynamicPage() || parent::hasPageWrapper();
+        return $this->isWrappedInDynamicPage()
+            || parent::hasPageWrapper()
+            || ($this->widgetHasTourGuide($this->getWidget()) && ! $this->getWidget()->hasParent());
     }
 
     protected function buildJsPageWrapper(string $contentJs, string $footerConstructor = '', string $headerContentJs = '') : string

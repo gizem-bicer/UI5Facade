@@ -49,6 +49,9 @@
         "npm-asset/driver.js": "^1.3",
         "axenox/gantt-js": "^1.1.1"
     },
+    "require-dev": {
+        "phpunit/phpunit": "^9.6||^10||^11||^12||^13"
+    },
     "autoload": {
         "psr-4": {
             "exface\\UI5Facade\\": ""
@@ -56,7 +59,8 @@
         "exclude-from-classmap": [
             "/Config/",
             "/Translations/",
-            "/Model/"
+            "/Model/",
+            "/Tests/"
         ]
     },
     "extra": {
